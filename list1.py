@@ -20,6 +20,9 @@
 # strings where the string length is 2 or more and the first
 # and last chars of the string are the same.
 # Note: python does not have a ++ operator, but += works.
+import operator
+
+
 def match_ends(words):
     count = 0
     for word in words:
@@ -39,11 +42,12 @@ def front_x(words):
     l1 = []
     l2 = []
     for word in words:
-        if word[0] == 'x': l1.append(word)
-        else: l2.append(word)
+        if word[0] == 'x':
+            l1.append(word)
+        else:
+            l2.append(word)
     result = sorted(l1) + sorted(l2)
     return result
-
 
 
 # C. sort_last
@@ -53,8 +57,13 @@ def front_x(words):
 # [(2, 2), (1, 3), (3, 4, 5), (1, 7)]
 # Hint: use sorted() function and a custom key= function to extract the last element form each tuple.
 def sort_last(tuples):
-    result = sorted(tuples, key=lambda tup: tup[1])
+    result = sorted(tuples, key=operator.itemgetter(1))  #вариант без лябды через itemgetter полсе чтения https://docs.python.org/3.7/howto/sorting.html#sortinghowto
     return result
+# def sort_last(tuples):
+#     result = sorted(tuples, key=lambda tup: tup[1])
+#     return result
+
+
 # https://www.w3schools.com/python/python_lambda.asp
 # и тут https://docs.python.org/3.7/howto/sorting.html#sortinghowto
 # но сами lambda функции чтото понял плохо, в данном примере получается что сам sorted проходит итераторм по списку
@@ -64,38 +73,36 @@ def sort_last(tuples):
 # Simple provided test() function used in main() to print
 # what each function returns vs. what it's supposed to return.
 def test(got, expected):
-  if got == expected:
-    prefix = ' OK '
-  else:
-    prefix = '  X '
-  print('{} got: {} expected: {}'.format(prefix, repr(got), repr(expected)))  # переделано на format
+    if got == expected:
+        prefix = ' OK '
+    else:
+        prefix = '  X '
+    print(f'{prefix} got: {repr(got)} expected: {repr(expected)}')  # переделано на f строку
 
 
 # Calls the above functions with interesting inputs.
 def main():
-  print('match_ends')
-  test(match_ends(['aba', 'xyz', 'aa', 'x', 'bbb']), 3)
-  test(match_ends(['', 'x', 'xy', 'xyx', 'xx']), 2)
-  test(match_ends(['aaa', 'be', 'abc', 'hello']), 1)
+    print('match_ends')
+    test(match_ends(['aba', 'xyz', 'aa', 'x', 'bbb']), 3)
+    test(match_ends(['', 'x', 'xy', 'xyx', 'xx']), 2)
+    test(match_ends(['aaa', 'be', 'abc', 'hello']), 1)
 
+    print('\n', 'front_x')
+    test(front_x(['bbb', 'ccc', 'axx', 'xzz', 'xaa']),
+         ['xaa', 'xzz', 'axx', 'bbb', 'ccc'])
+    test(front_x(['ccc', 'bbb', 'aaa', 'xcc', 'xaa']),
+         ['xaa', 'xcc', 'aaa', 'bbb', 'ccc'])
+    test(front_x(['mix', 'xyz', 'apple', 'xanadu', 'aardvark']),
+         ['xanadu', 'xyz', 'aardvark', 'apple', 'mix'])
 
-  print('\n', 'front_x')
-  test(front_x(['bbb', 'ccc', 'axx', 'xzz', 'xaa']),
-       ['xaa', 'xzz', 'axx', 'bbb', 'ccc'])
-  test(front_x(['ccc', 'bbb', 'aaa', 'xcc', 'xaa']),
-       ['xaa', 'xcc', 'aaa', 'bbb', 'ccc'])
-  test(front_x(['mix', 'xyz', 'apple', 'xanadu', 'aardvark']),
-       ['xanadu', 'xyz', 'aardvark', 'apple', 'mix'])
-
-       
-  print('\n', 'sort_last')
-  test(sort_last([(1, 3), (3, 2), (2, 1)]),
-       [(2, 1), (3, 2), (1, 3)])
-  test(sort_last([(2, 3), (1, 2), (3, 1)]),
-       [(3, 1), (1, 2), (2, 3)])
-  test(sort_last([(1, 7), (1, 3), (3, 4, 5), (2, 2)]),
-       [(2, 2), (1, 3), (3, 4, 5), (1, 7)])
+    print('\n', 'sort_last')
+    test(sort_last([(1, 3), (3, 2), (2, 1)]),
+         [(2, 1), (3, 2), (1, 3)])
+    test(sort_last([(2, 3), (1, 2), (3, 1)]),
+         [(3, 1), (1, 2), (2, 3)])
+    test(sort_last([(1, 7), (1, 3), (3, 4, 5), (2, 2)]),
+         [(2, 2), (1, 3), (3, 4, 5), (1, 7)])
 
 
 if __name__ == '__main__':
-  main()
+    main()
