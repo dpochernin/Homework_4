@@ -9,22 +9,27 @@ s2 = [s % 3 for s in s1]
 print(s2)
 
 # У вас есть список, в котором могут быть разные типы данных. Создайте новый список только чисел из этого списка.
-l1 = ['lol', 1, 5, [1, 'a'], 1.5, '6']
+l1 = ['lol', 1, 5, [1, 'a', [1, '17', 23, 'a', [100, 1.234]]], 1.5, '6']
+print(l1)
+# переделано из "непонятно чего" на рекурсивный проход по массиву массивов
 
 
-def digit_try(x):
-    if type(x) is int or type(x) is float:
-        return x
-    try: return int(x)
-    except ValueError: pass
-    except TypeError:
-        for d in x:
-            try: return int(d)
-            except ValueError: pass
+def digit_try(mas, result=[]):
+    for val in mas:
+        if type(val) is int or type(val) is float:
+            result.append(val)
+        else:
+            try: result.append(int(val))
+            except TypeError: digit_try(val, result)
+            except ValueError:
+                try: result.append(float(val))
+                except TypeError: digit_try(val, result)
+                except ValueError: pass
+    return result
 
 
-l2 = [digit_try(dig) for dig in l1 if digit_try(dig) is not None]
-print(l2)
+print(digit_try(l1))
+
 
 # У вас есть список, в котором могут быть разные типы данных.
 # Создайте новый список только строк, при этом удалите усе небуквенные символы из них.
