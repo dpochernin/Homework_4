@@ -13,14 +13,14 @@ def song_gen(strings=3, words=3, fin=0) -> str:
     strings= - сколько строк будет в песне. По умолчанию 3\n
     words= - сколько «la» будет в строке («la» в строке объединяются дефисом). По умолчанию 3\n
     fin= - если 0, то в конце песни (в конце последней строчки) стоит точка, если 1, то в конце стоит «!».
-    По умолчанию 0. Если fin не 0 или 1 генерируется ValueError
+    По умолчанию 0. Если fin не 0 или 1 генерируется
     ! если strings и words отрицательные - берем их по модулю"""
     from math import ceil
     # выполняем выполняем проверки на int, в случае неуспеха генерируется TypeError
     strings = ceil(int(strings))
     words = ceil(int(words))
-    if fin != 0 and fin != 1:
-        raise ValueError('\'fin\' is not in range, must be 1 or 0; fin=' + str(fin))
+    assert fin == 0 or fin == 1, "fin={}, must be 0 or 1 only".format(fin)  # переделана проверка на ассерт
+
     # генерируем песенку
     song_string = ['la'] * words
     song = ('-'.join(song_string) + '\n') * strings

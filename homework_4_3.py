@@ -2,13 +2,14 @@
 # Напишите функцию, которая удаляет все небуквенные символы внутри строки
 # (ограничимся латинским алфавитом).
 # Проверьте, что вы правильно закодили с помощью инструкции assert.
+import string
 
 
 def dell_not_alpha(s: str) -> str:
     """Принимаем строку, возвращаем эту строку содержащую только латинские буквы"""
     s1 = ''
     for char in s:
-        if char.isalpha():
+        if char in string.ascii_letters:    # переделано на string.ascii_letters
             s1 = s1 + char
     # return s1 + '1'
     return s1
