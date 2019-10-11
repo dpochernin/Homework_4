@@ -14,12 +14,14 @@
 # modify the passed in list.
 def remove_adjacent(nums):
     result = []
-    while nums:
-        result.append(nums[0])
-        try:
-            nums.remove(nums[0])
-        except ValueError:
-            break
+    if nums: result = list(set(nums))   # реализация через set
+    # result = []
+    # while nums:
+    #     result.append(nums[0])
+    #     try:
+    #         nums.remove(nums[0])
+    #     except ValueError:
+    #         break
     return result
 
 
